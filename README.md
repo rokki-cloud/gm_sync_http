@@ -8,13 +8,13 @@ Server side Library for creating synchronous HTTP requests for Garry's Mod
 ```lua
 status, code, headers, body = rkk_shttp:Post(url, data, headers, options) -- Sends a POST request to the server
 
-status, code, headers, body = rkk_shttp:GET(url, headers, options) -- Sends a GET request to the server
+status, code, headers, body = rkk_shttp:Get(url, headers, options) -- Sends a GET request to the server
 
-status, code, headers = rkk_shttp:HEAD(url, headers, options) -- Sends a HEAD request to the server
+status, code, headers = rkk_shttp:Head(url, headers, options) -- Sends a HEAD request to the server
 
-status, code, headers = rkk_shttp:PUT(url, data, headers, options) -- Sends a PUT request to the server
+status, code, headers = rkk_shttp:Put(url, data, headers, options) -- Sends a PUT request to the server
 
-status, code, headers = rkk_shttp:DELETE(url, headers, options) -- Sends a DELETE request to the server
+status, code, headers = rkk_shttp:Delete(url, headers, options) -- Sends a DELETE request to the server
 
 -- Example of the received data:
 -- (string) status = HTTP/1.1 200 OK
