@@ -34,9 +34,9 @@ local uri = "http://localhost:8080/some.php" -- STRING ONLY
 local postdata = {key1 = "value1", key2 = "value2"} or "key1=value1&key2=value2" -- TABLE OR STRING OR NIL
 local headers = {Authorization = "Bearer"} -- TABLE OR NIL
 local options = {  -- TABLE OR NIL
-  "timeout" = 10000 -- 10s
-  "maxSize" = 1024 -- 1024 bytes or 1 KB
-  "redirect" = 6 -- Maximum number of redirects. Set it to 0 if you don't want automatic redirects.
+  timeout = 10000 -- 10s
+  maxSize = 1024 -- 1024 bytes or 1 KB
+  redirect = 6 -- Maximum number of redirects. Set it to 0 if you don't want automatic redirects.
   -- All options must be numbers
 }
 local status, code, headers, body = shttp:Post(uri, postdata, headers, options)
@@ -46,9 +46,9 @@ GET REQUEST
 local uri = "https://localhost/image.jpg?size=1080" -- STRING ONLY
 local headers = {Authorization = "Bearer"} -- TABLE OR NIL
 local options = {  -- TABLE OR NIL
-  "timeout" = 60000 -- 60s
-  "maxSize" =  1024 * 1024 -- 1 MB
-  "redirect" = 0 --  No redirects
+  timeout = 60000 -- 60s
+  maxSize =  1024 * 1024 -- 1 MB
+  redirect = 0 --  No redirects
 }
 local status, code, headers, body = shttp:Get(uri, headers, options) 
 ```
