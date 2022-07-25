@@ -1,7 +1,7 @@
 if (SERVER) then
-    rkk_shttp.fnc = {}
+    shttp.fnc = {}
 
-    function rkk_shttp.fnc:IndexOf(fNeed, fStr)
+    function shttp.fnc:IndexOf(fNeed, fStr)
         for i = 1, #fStr do
             if (fStr[i] == fNeed) then
                 return i
@@ -11,7 +11,7 @@ if (SERVER) then
         return -1
     end
 
-    function rkk_shttp.fnc:uriDisassembly(fUri)
+    function shttp.fnc:uriDisassembly(fUri)
         local host, path, port, ssl = "", "", 80, false
 
         if (string.StartWith(fUri, "http://")) then
@@ -41,7 +41,7 @@ if (SERVER) then
         return host, path, port, ssl
     end
 
-    function rkk_shttp.fnc:postDataConstructor(fData)
+    function shttp.fnc:postDataConstructor(fData)
         local postdata = ""
         if istable(fData) then
             for k, v in pairs(fData) do
@@ -59,7 +59,7 @@ if (SERVER) then
         return ""
     end
 
-    function rkk_shttp.fnc:headersConstructor(fHeaders, fPostLength)
+    function shttp.fnc:headersConstructor(fHeaders, fPostLength)
         local headers = ""
         fHeaders = fHeaders or {}
         if (fPostLength) then
@@ -75,7 +75,7 @@ if (SERVER) then
         return headers
     end
 
-    function rkk_shttp.fnc:headersDisassembly(fHeaders)
+    function shttp.fnc:headersDisassembly(fHeaders)
         local headers, temp = {}, {}
         fHeaders = string.Split(fHeaders, "\r\n")
         for _, v in pairs(fHeaders) do
@@ -88,11 +88,11 @@ if (SERVER) then
         return headers
     end
 
-    function rkk_shttp.fnc:statusDisassembly(fStatus)
-        return tonumber(string.sub(string.Right(fStatus, #fStatus - 9), 1, 3)) or 0
+    function shttp.fnc:statusDisassembly(fStatus)
+        return tonumber(string.sub(string.Right(fStatus, #fStatus - 9), 1, 3))
     end
 
-    function rkk_shttp.fnc:contentRead(socket, fHeaders)
+    function shttp.fnc:contentRead(socket, fHeaders)
         local bodypack
         local body = ""
         if (fHeaders["Content-Length"]) then
@@ -116,14 +116,14 @@ if (SERVER) then
         return body
     end
 
-    function rkk_shttp.fnc:headersRead(socket)
+    function shttp.fnc:headersRead(socket)
         local headers = socket:ReceiveUntil("\r\n\r\n")
         if headers == false then return false end
         headers = headers:ReadStringAll()
         return headers
     end
 
-    function rkk_shttp.fnc:httpRead(socket)
+    function shttp.fnc:httpRead(socket)
         local status, code, headers, headerspack, body = "", 0, {}, {}, ""
         status = socket:ReceiveUntil("\r\n")
         if status == false then return false end
@@ -140,7 +140,7 @@ if (SERVER) then
         return status, code, headers, body
     end
 
-    function rkk_shttp.fnc:httpHeadRead(socket)
+    function shttp.fnc:httpHeadRead(socket)
         local status, code, headers, headerspack = "", 0, {}, {}
         status = socket:ReceiveUntil("\r\n")
         if status == false then return false end
@@ -156,7 +156,7 @@ if (SERVER) then
         return status, code, headers
     end
 
-    function rkk_shttp.fnc:httpSend(method, fUri, fHeaders, fBody, fOptions)
+    function shttp.fnc:httpSend(method, fUri, fHeaders, fBody, fOptions)
         local host, path, port, ssl = self:uriDisassembly(fUri)
         local socket = BromSock()
         socket:Connect(host, port)
@@ -183,24 +183,23 @@ if (SERVER) then
         return socket
     end
 
-    function rkk_shttp.fnc:optionsSet(socket, fOptions)
+    function shttp.fnc:optionsSet(socket, fOptions)
         fOptions = fOptions or {}
         socket:SetTimeout(fOptions["timeout"] or 60000)
         socket:SetMaxReceiveSize(fOptions["maxSize"] or 52428800)
     end
 
 
-    function rkk_shttp.fnc:redirectCheck(code)
+    function shttp.fnc:redirectCheck(code)
         if (code == 301 or code == 302 or code == 307 or code == 308) then
             return 2 -- same METHOD rdr
-        elseif (code == 303 and fOptions["redirect"] < 1) then
+        elseif (code == 303) then
             return 1 -- GET rdr
-        else 
-            return 0 -- NO rdr
         end
+        return 0 -- NO rdr
     end
 
-    function rkk_shttp:Redirecter(method, rdrcode, fData, fHeaders, headers, fOptions)
+    function shttp:Redirecter(method, rdrcode, fData, fHeaders, headers, fOptions)
         fOptions = fOptions or {}
         fOptions["redirect"] = (tonumber(fOptions["redirect"]) - 1) or 0
         if (rdrcode == 1) then

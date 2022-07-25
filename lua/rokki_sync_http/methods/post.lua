@@ -1,5 +1,5 @@
 if (SERVER) then
-    function rkk_shttp:Post(fUri, fData, fHeaders, fOptions)
+    function shttp:Post(fUri, fData, fHeaders, fOptions)
         local method = "POST"
         fOptions = fOptions or {}
         fOptions["redirect"] = fOptions["redirect"] or 6
@@ -12,12 +12,5 @@ if (SERVER) then
         else
             return status, code, headers, body
         end
-    end
-
-    function get_http_test()
-        local status, code, headers, body = rkk_shttp:Head("https://rokki-backups.website.yandexcloud.net/rokki_cloud.zip", nil, {maxSize = 157286400})
-        print(status, code)
-        PrintTable(headers)
-        if (body) then file.Write("response.txt", body) end
     end
 end

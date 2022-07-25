@@ -1,5 +1,5 @@
 if (SERVER) then
-    function rkk_shttp:Head(fUri, fHeaders, fOptions)
+    function shttp:Head(fUri, fHeaders, fOptions)
         local method = "HEAD"
         fOptions = fOptions or {}
         fOptions["redirect"] = fOptions["redirect"] or 6
