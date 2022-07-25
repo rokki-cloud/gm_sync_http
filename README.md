@@ -1,3 +1,4 @@
+![License](https://img.shields.io/github/license/rokki-git/sync_http) ![Size](https://img.shields.io/github/repo-size/rokki-git/sync_http) 
 # Rokki Lua Sync HTTP lib
 Server side Library for creating synchronous HTTP requests for Garry's Mod
 
